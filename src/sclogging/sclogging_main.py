@@ -14,7 +14,7 @@ import coloredlogs
 import pyinputplus as py_option
 from colorama import Back, Cursor, Fore, Style
 
-from .config import settings
+from config import settings
 
 
 def __getattr__(name):
@@ -560,7 +560,6 @@ class CallerFilter(logging.Filter):
         :return:
         :rtype: bool
         """
-
         spacers = (spacer_color +
                    spacer) * (58 - len(Timer().__getattribute__("scaller")))
         record.caller = f"{Timer().__getattribute__('scaller')} " f"{spacers}"
