@@ -15,6 +15,7 @@ enabled = true
 [[transformers]]
 name = "black"
 enabled = true
+line-length = 79
 
 [[transformers]]
 name = "autopep8"
