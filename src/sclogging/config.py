@@ -14,7 +14,6 @@ if exists(settings_file):
         Validator(
             "logging_auto_create_dir",
             "logging_log_to_file",
-            "color",
             is_type_of=bool,
         ),
         Validator(
