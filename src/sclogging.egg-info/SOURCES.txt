@@ -1,3 +1,5 @@
+LICENSE
+README.md
 setup.py
 src/sclogging/__init__.py
 src/sclogging/config.py
