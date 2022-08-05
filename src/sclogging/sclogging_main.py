@@ -1,6 +1,6 @@
 """Custom logging module for BriteCore scripts"""
-import inspect
 import difflib
+import inspect
 import logging
 import os
 import re
@@ -26,8 +26,10 @@ def __getattr__(name):
     for each_mod in search_mods:
         if hasattr(each_mod, name):
             mod_name = search_strs[search_mods.index(each_mod)]
-            dup_dict.update({name: getattr(each_mod, name),
-                             mod_name: each_mod})
+            dup_dict.update({
+                name: getattr(each_mod, name),
+                mod_name: each_mod
+            })
     if len(dup_dict) > 2:
         dup_dict.pop(name)
         raise AttributeError(f"The attribute {name} is duplicated in "
@@ -72,48 +74,42 @@ class NameFilter(logging.Filter):
         each_attrib_count = 0
         for style_search in style_tag:
             style_regex = r"%" + style_search + \
-                          r"\.(\w*)%(.*?)%" + style_search + r"%"
+                r"\.(\w*)%(.*?)%" + style_search + r"%"
             add_attrib = re.findall(style_regex, record.msg)
             if add_attrib:
                 for each_specific_attrib in add_attrib:
                     attrib_add = each_specific_attrib[0]
                     if attrib_add.upper(
-                            ) not in valid_attrib[each_attrib_count]:
+                    ) not in valid_attrib[each_attrib_count]:
                         print(f"Invalid option specified - {attrib_add}")
                         continue
                     fixed_text = re.sub(
                         style_regex,
-                        text_color(
-                            each_specific_attrib[1], attrib_add,
-                            style_tag[style_search]
-                            ),
+                        text_color(each_specific_attrib[1], attrib_add,
+                                   style_tag[style_search]),
                         fixed_text,
                         count=1,
-                        )
+                    )
             each_attrib_count += 1
             if style_search == "s":
                 curr_bold = error_color_format.get(
-                    record.levelname.lower()
-                    ).get("bright", "")
+                    record.levelname.lower()).get("bright", "")
                 if curr_bold:
                     curr_bold = Style.BRIGHT
                 curr_faint = error_color_format.get(
-                    record.levelname.lower()
-                    ).get("faint", "")
+                    record.levelname.lower()).get("faint", "")
                 if curr_faint:
                     curr_faint = Style.DIM
 
         curr_color = error_color_format.get(record.levelname.lower()).get(
-            "color", ""
-            )
+            "color", "")
         if curr_color.isnumeric():
             curr_color = "\033[" + curr_color + "m"
         else:
             curr_color = getattr(colorama.Fore, curr_color.upper(), "")
 
         curr_back = error_color_format.get(record.levelname.lower()).get(
-            "background", ""
-            )
+            "background", "")
         if curr_back.isnumeric():
             curr_back = "\033[" + curr_back
         else:
@@ -122,10 +118,8 @@ class NameFilter(logging.Filter):
         curr_reset = curr_back + curr_color + curr_faint + curr_bold
         reset_text = curr_reset + fixed_text.replace(Fore.RESET, curr_color)
         reset_text = reset_text.replace(Back.RESET, curr_back)
-        reset_text = reset_text.replace(
-            Style.RESET_ALL,
-            curr_faint + curr_bold
-            )
+        reset_text = reset_text.replace(Style.RESET_ALL,
+                                        curr_faint + curr_bold)
         record.msg = reset_text + curr_reset
         return True
 
@@ -168,35 +162,31 @@ caller_log_format = (r"%(asctime)s.%(msecs)03d %(name)-20s %(caller)-60s  "
                      r"%(levelname)-10s "
                      r"%(message)-s")
 caller_color_format = coloredlogs.DEFAULT_FIELD_STYLES
-caller_color_format.update(
-    {
-        "caller": {
-            "color": 133
-            },
-        "varname": {
-            "color": "red"
-            },
-        "levelname": {
-            "color": 48
-            },
-        }
-    )
+caller_color_format.update({
+    "caller": {
+        "color": 133
+    },
+    "varname": {
+        "color": "red"
+    },
+    "levelname": {
+        "color": 48
+    },
+})
 
 error_color_format = coloredlogs.DEFAULT_LEVEL_STYLES
-error_color_format.update(
-    {
-        "error": {
-            "color": "black",
-            "background": "red"
-            },
-        "info": {
-            "color": "blue"
-            },
-        "warning": {
-            "color": "red"
-            },
-        }
-    )
+error_color_format.update({
+    "error": {
+        "color": "black",
+        "background": "red"
+    },
+    "info": {
+        "color": "blue"
+    },
+    "warning": {
+        "color": "red"
+    },
+})
 
 default_log_path = ""
 default_level = "INFO"
@@ -209,46 +199,37 @@ try:
     default_log_path = settings.logging_path
 except AttributeError:
     base_log.critical(
-        f"'logging_path' missing in settings using {default_log_path}"
-        )
+        f"'logging_path' missing in settings using {default_log_path}")
 
 try:
     default_level = settings.logging_level
 except AttributeError:
     base_log.critical(
-        f"'logging_level' missing in settings using {default_level}"
-        )
+        f"'logging_level' missing in settings using {default_level}")
 
 try:
     default_file_level = settings.logging_file_level
 except AttributeError:
     base_log.critical(
-        f"'logging_log_level' missing in settings using {default_file_level}"
-        )
+        f"'logging_log_level' missing in settings using {default_file_level}")
 
 try:
     default_auto_create = settings.logging_auto_create_dir
 except AttributeError:
-    base_log.critical(
-        f"'logging_auto_create_dir' missing in settings using "
-        f"{default_auto_create}"
-        )
+    base_log.critical(f"'logging_auto_create_dir' missing in settings using "
+                      f"{default_auto_create}")
 
 try:
     default_log_to_file = settings.logging_log_to_file
 except AttributeError:
-    base_log.critical(
-        f"'logging_log_to_file' missing in settings using "
-        f"{default_log_to_file}"
-        )
+    base_log.critical(f"'logging_log_to_file' missing in settings using "
+                      f"{default_log_to_file}")
 
 try:
     default_log_ext = settings.logging_ext
 except AttributeError:
-    base_log.critical(
-        f"'logging_ext' missing in settings using "
-        f"{default_log_ext}"
-        )
+    base_log.critical(f"'logging_ext' missing in settings using "
+                      f"{default_log_ext}")
 
 coloredlogs.install(logger=base_log)
 log_path = os.path.normpath(default_log_path)
@@ -264,20 +245,17 @@ for each_attrib in dir(logging):
 level_numbers_string = ""
 sorted_level_numbers = sorted(level_numbers.keys())
 for each_level_numbers in sorted_level_numbers:
-    level_numbers_string += f"{level_numbers.get(each_level_numbers)}" \
-                            f"({each_level_numbers}), "
+    level_numbers_string += (f"{level_numbers.get(each_level_numbers)}"
+                             f"({each_level_numbers}), ")
 level_numbers_string = level_numbers_string[:-2]
-
 
 level_numbers = list(dict.fromkeys(level_numbers))
 level_numbers.sort()
 debug_levels = "|".join(level_list)
 
 
-def set_log_path(
-    path: str = log_path,
-    auto_create: bool = default_auto_create
-        ) -> str:
+def set_log_path(path: str = log_path,
+                 auto_create: bool = default_auto_create) -> str:
     """Set log path
     Set globally at load with config, can be called to modify path per module
     :param path: Direct or relative path for logfiles
@@ -295,8 +273,8 @@ def set_log_path(
                 f"Default is yes:\n",
                 limit=3,
                 default="yes",
-                blank=True
-                )
+                blank=True,
+            )
         if not create_path or create_path == "yes":
             try:
                 os.makedirs(path)
@@ -338,7 +316,7 @@ def verify_level(level: [str, int]) -> bool:
                        f"You entered %c.cyan%{level}%c%\n"
                        f"Acceptable levels are:\n{level_numbers_string}")
         level_dym = difflib.get_close_matches(level,
-                                              level_numbers_string.split(', '))
+                                              level_numbers_string.split(", "))
         if level_dym:
             exit_string += f"\nDid you mean: %c.cyan%{level_dym[0]}%c%?"
         base_log.warning(exit_string)
@@ -379,8 +357,8 @@ def clear_logs(force: bool = False):
             f"Do you want to delete all log files?\n"
             f"Default is no:\n",
             default="no",
-            blank=True
-            )
+            blank=True,
+        )
 
     if del_files == "yes":
         shutil.rmtree(log_path, onerror=err_handler)
@@ -442,10 +420,11 @@ class Timer:
         self.timer_logger.addFilter(CallerFilter())
         self.timer_logger.propagate = False
         coloredlogs.install(
-            logger=self.timer_logger, level=self.logger.root.level,
+            logger=self.timer_logger,
+            level=self.logger.root.level,
             fmt=caller_log_format,
             field_styles=caller_color_format,
-            )
+        )
 
     def start_timer(self, note: str = "", show_process: bool = False):
         """Start timer
@@ -481,10 +460,8 @@ class Timer:
         fcaller = f"{self.caller}.{self.function}.{local_func}.{self.vid}"
         setattr(Timer, "scaller", fcaller)
         if not self.start_time:
-            self.logger.log(
-                logging.getLevelName(self.level),
-                "Timer was not started"
-                )
+            self.logger.log(logging.getLevelName(self.level),
+                            "Timer was not started")
             setattr(Timer, "svid", "")
             setattr(Timer, "scaller", "")
             return 0
@@ -494,13 +471,13 @@ class Timer:
 
         if not note:
             if show_process:
-                logger_note = f"Timer took {total_time:.3f} seconds - " \
-                              f"{self.vid}"
+                logger_note = f"Timer took {total_time:.3f} seconds - " f"{self.vid}"
             else:
                 logger_note = f"Timer took {total_time:.3f} seconds"
         else:
-            logger_note = note.replace("%t%", "{:.3f}".format(total_time))\
-                .replace("%p%", self.vid)
+            logger_note = note.replace("%t%",
+                                       "{:.3f}".format(total_time)).replace(
+                                           "%p%", self.vid)
 
         self.timer_logger.log(logging.getLevelName(self.level), logger_note)
         setattr(Timer, "svid", "")
@@ -526,10 +503,8 @@ def text_color(text: str, style: str, attrib: str) -> str:
     elif attrib.lower() == "style":
         reset = Style.RESET_ALL
 
-    return getattr(
-        getattr(colorama, attrib.title()),
-        style.upper()
-        ) + text + reset
+    return getattr(getattr(colorama, attrib.title()),
+                   style.upper()) + text + reset
 
 
 class CallerFilter(logging.Filter):
@@ -552,8 +527,7 @@ class CallerFilter(logging.Filter):
         if timer_scaller:
             timer_scaller_split = timer_scaller.split(".")
             timer_scaller_join = ".".join(timer_scaller_split[1:])
-        spacers = (spacer_color +
-                   spacer) * (58 - len(timer_scaller_join))
+        spacers = (spacer_color + spacer) * (58 - len(timer_scaller_join))
         record.caller = f"{timer_scaller_join} {spacers}"
         record.funcName = f"{timer_scaller_join} {spacers}"
 
@@ -567,7 +541,7 @@ def get_logger(
     level: [str, int] = default_level,
     log_to_file: bool = default_log_to_file,
     log_file_level: [str, int] = default_file_level,
-        ) -> logging.Logger:
+) -> logging.Logger:
     """Configures a logger
     :param caller_name: Name of module or custom name
     :param level: Debug level
@@ -597,10 +571,8 @@ def get_logger(
     log_file_name = f"{caller_name}-{log_time}.{default_log_ext}"
     log_full_path = os.path.join(log_path, log_file_name)
 
-    log_formatter = logging.Formatter(
-        fmt=file_log_format,
-        datefmt="%Y-%m-%d %H:%M:%S"
-        )
+    log_formatter = logging.Formatter(fmt=file_log_format,
+                                      datefmt="%Y-%m-%d %H:%M:%S")
 
     logger = logging.getLogger(caller_name)
     logger.setLevel(level)
@@ -644,7 +616,7 @@ if not name_filter_added:
         logger=base_logger,
         fmt=caller_log_format,
         field_styles=caller_color_format,
-        )
+    )
 
 filter_added = False
 for format_filters in base_logger.filters:
@@ -657,7 +629,7 @@ if not filter_added:
         logger=base_logger,
         fmt=caller_log_format,
         field_styles=caller_color_format,
-        )
+    )
 
 # Specific loggers
 try:
