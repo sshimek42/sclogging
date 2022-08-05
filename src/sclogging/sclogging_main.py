@@ -32,7 +32,7 @@ def __getattr__(name):
         dup_dict.pop(name)
         raise AttributeError(f"The attribute {name} is duplicated in "
                              f"{', '.join(dup_dict.keys())}")
-    elif len(dup_dict) < 2:
+    if len(dup_dict) < 2:
         raise AttributeError(f"The attribute {name} is not found")
 
     return dup_dict.get(name)
@@ -328,7 +328,7 @@ def verify_level(level: [str, int]) -> bool:
     """Verifies debug level
     :param level: Level to check
     """
-    if type(level) == str:
+    if type(level) is str:
         level = level.upper()
     level_num = logging.getLevelName(level)
     invalid_level = "Level" in str(level_num)
@@ -429,7 +429,7 @@ class Timer:
         self.logger.propagate = False
         if verify_level(level):
             self.level = level
-            if type(self.level) == str:
+            if type(self.level) is str:
                 self.level = self.level.upper()
             else:
                 self.level = logging.getLevelName(self.level)
@@ -664,7 +664,6 @@ try:
     specific_loggers = settings.specific_loggers
 except AttributeError:
     specific_loggers = {}
-    pass
 
 for key in dict(specific_loggers):
     if verify_level(specific_loggers.get(key)):
@@ -672,4 +671,3 @@ for key in dict(specific_loggers):
             logging.getLogger(key).setLevel(specific_loggers.get(key))
         except ValueError:
             logging.warning(f"Cannot set {key} to {specific_loggers.get(key)}")
-            pass
