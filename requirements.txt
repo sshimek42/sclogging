@@ -1,5 +1,5 @@
-setuptools==62.4.0
-dynaconf~=3.1.9
-colorama==0.4.5
-coloredlogs~=15.0.1
-PyInputPlus~=0.2.12
+dynaconf>=3.1.9
+colorama>=0.4.5
+coloredlogs>=15.0.1
+PyInputPlus>=0.2.12
+setuptools>=65.3.0

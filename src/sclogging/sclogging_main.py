@@ -1,4 +1,4 @@
-"""Custom logging module for BriteCore scripts"""
+"""Custom logging module with coloredlogs"""
 import inspect
 import difflib
 import logging
@@ -14,7 +14,6 @@ import colorama
 import coloredlogs
 import pyinputplus as py_option
 from colorama import Back, Cursor, Fore, Style
-
 from sclogging import settings
 
 
