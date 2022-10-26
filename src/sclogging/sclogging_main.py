@@ -498,7 +498,7 @@ class Timer:
             else:
                 logger_note = f"Timer took {total_time:.3f} seconds"
         else:
-            logger_note = note.replace("%t%", "{:.3f}".format(total_time))\
+            logger_note = note.replace("%t%", f"{total_time:.3f}")\
                 .replace("%p%", self.vid)
 
         self.timer_logger.log(logging.getLevelName(self.level), logger_note)
