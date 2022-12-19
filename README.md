@@ -2,8 +2,6 @@
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) 
 
-[![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/platforms.svg)](https://anaconda.org/sshimek42/sclogging) [![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/license.svg)](https://anaconda.org/sshimek42/sclogging) [![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/installer/conda.svg)](https://conda.anaconda.org/sshimek42)
-
 
 A Python module (with the help of coloredlogs) to add color to logs.
 

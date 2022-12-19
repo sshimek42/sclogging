@@ -1,7 +1,8 @@
 """Settings config"""
 from os.path import dirname, exists, join
 
-from dynaconf import Dynaconf, Validator
+from dynaconf import Dynaconf, Validator, loaders
+from dynaconf.utils.boxing import DynaBox
 
 module_path = dirname(__file__)
 
@@ -32,3 +33,7 @@ if exists(settings_file):
 
 else:
     settings = ""
+
+
+def write_config(config_data: dict):
+    loaders.write(settings_file, DynaBox(config_data).to_dict())
