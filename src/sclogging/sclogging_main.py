@@ -713,12 +713,12 @@ def set_config(
         spacer_color = getattr(Fore, display_spacer_color.upper())
     except AttributeError:
         logging.warning(f"Invalid color - {display_spacer_color}")
-        spacer_color = getattr(Fore, "RED")
+        spacer_color = Fore.RED
 
-    for key in specific_loggers:
-        if verify_level(specific_loggers.get(key)):
+    for lkey in specific_loggers:
+        if verify_level(specific_loggers.get(lkey)):
             try:
-                logging.getLogger(key).setLevel(specific_loggers.get(key))
+                logging.getLogger(lkey).setLevel(specific_loggers.get(lkey))
             except ValueError:
                 logging.warning(f"Cannot set {key} to "
                                 f"{specific_loggers.get(key)}")
