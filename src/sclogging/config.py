@@ -16,19 +16,19 @@ if exists(settings_file):
             "logging_auto_create_dir",
             "logging_log_to_file",
             is_type_of=bool,
-            ),
+        ),
         Validator(
             "logging_path",
             "logging_ext",
             "spacer",
             "spacer_color",
             is_type_of=str,
-            ),
+        ),
         Validator(
             "specific_loggers",
             is_type_of=dict,
-            ),
-        )
+        ),
+    )
     settings.validators.validate()
 
 else:
