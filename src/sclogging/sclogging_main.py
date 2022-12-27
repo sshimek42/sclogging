@@ -14,8 +14,7 @@ import colorama
 import coloredlogs
 import pyinputplus as py_option
 from colorama import Back, Cursor, Fore, Style
-from sclogging import settings
-from sclogging.config import write_config
+from sclogging.config import write_config, settings
 
 
 def get_terminal_size():
@@ -650,7 +649,7 @@ def set_config(
     display_spacer: str = spacer,
     display_spacer_color: str = spacer_color,
     specific_logger_levels: dict = settings.specific_loggers
-    ):
+        ):
     """
     Sets default config
     :param default_log_level:
@@ -671,6 +670,8 @@ def set_config(
     global default_log_ext
     global spacer
     global spacer_color
+
+    level = ""
 
     if type(default_log_level) is not int:
         level = default_log_level.upper()
