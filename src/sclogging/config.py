@@ -35,5 +35,6 @@ else:
     settings = ""
 
 
-def write_config(config_data: dict):
+def write_config(config_data: dict) -> None:
+    """ Writes config to file """
     loaders.write(settings_file, DynaBox(config_data).to_dict())

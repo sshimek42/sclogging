@@ -17,7 +17,11 @@ from colorama import Back, Cursor, Fore, Style
 from sclogging.config import write_config, settings
 
 
-def get_terminal_size():
+def get_terminal_size() -> int:
+    """
+    Returns console size
+    :return: columns
+    """
     columns = shutil.get_terminal_size().columns
     return columns
 
@@ -288,7 +292,7 @@ debug_levels = "|".join(level_list)
 def set_log_path(
     path: str = log_path,
     auto_create: bool = default_auto_create
-    ) -> str:
+        ) -> str:
     """Set log path
     Set globally at load with config, can be called to modify path per module
     :param path: Direct or relative path for logfiles
@@ -581,7 +585,7 @@ def get_logger(
     level: [str, int] = default_level,
     log_to_file: bool = default_log_to_file,
     log_file_level: [str, int] = default_file_level,
-    ) -> logging.Logger:
+        ) -> logging.Logger:
     """Configures a logger
     :param caller_name: Name of module or custom name
     :param level: Debug level
@@ -662,7 +666,6 @@ def set_config(
     :param specific_logger_levels:
     :return:
     """
-
     global default_level
     global default_log_to_file
     global default_file_level
