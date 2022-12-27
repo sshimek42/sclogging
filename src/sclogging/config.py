@@ -16,19 +16,19 @@ if exists(settings_file):
             "logging_auto_create_dir",
             "logging_log_to_file",
             is_type_of=bool,
-            ),
+        ),
         Validator(
             "logging_path",
             "logging_ext",
             "spacer",
             "spacer_color",
             is_type_of=str,
-            ),
+        ),
         Validator(
             "specific_loggers",
             is_type_of=dict,
-            ),
-        )
+        ),
+    )
     settings.validators.validate()
 
 else:
@@ -36,5 +36,5 @@ else:
 
 
 def write_config(config_data: dict) -> None:
-    """ Writes config to file """
+    """Writes config to file"""
     loaders.write(settings_file, DynaBox(config_data).to_dict())
