@@ -82,7 +82,7 @@ class NameFilter(logging.Filter):
         fixed_text = record.msg
         curr_bold = ""
         curr_faint = ""
-        style_tag = {"c": "fore", "s": "style", "b": "back"}
+        style_tag = {"f": "fore", "s": "style", "b": "back"}
         each_attrib_count = 0
         for style_search in style_tag:
             style_regex = r"%" + style_search + \
