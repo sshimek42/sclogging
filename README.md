@@ -1,11 +1,14 @@
 # sclogging
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) 
-
+[![Documentation Status](https://readthedocs.org/projects/sclogging/badge/?version=latest)](https://sclogging.readthedocs.io/en/latest/?badge=latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Python module (with the help of coloredlogs) to add color to logs.
 
-Working on docs.
+Still working on docs.
+
+[Current docs](https://sclogging.readthedocs.io)
 
 get_logger is where to get started.
 
