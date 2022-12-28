@@ -9,7 +9,7 @@ Working on docs.
 
 get_logger is where to get started.
 
-Some options allow certain customations in the records themselves (e.g. %c.red%something%c%) sets color for that word then returns to defult color of that level of logging.
+Some options allow certain customizations in the records themselves (e.g. %f.red%something%f%) sets the FORE color for that word then returns to default color of that level of logging.
 
 
 Other options:
@@ -19,7 +19,7 @@ Easily setting seperate options for stderr and file logs
 
 Custom timer class
 
-  Allows this: var_a=Timer(level="INFO")
+  Allows this: var_a = Timer(level="INFO")
   
                var_a.start_timer(Note="I started it")
                
