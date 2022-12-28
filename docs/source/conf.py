@@ -23,22 +23,14 @@ author = 'sshimek42'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.autosummary',
-              'sphinx_rtd_theme', 'sphinx.ext.napoleon',
-              'sphinx_autodoc_typehints']
+              'sphinx_rtd_theme', 'sphinx.ext.napoleon']
 
-typehints_fully_qualified = True
-always_document_param_types = True
 
-autodoc_typehints = "description"
+autodoc_typehints = "both"
 autodoc_typehints_format = "fully-qualified"
-typehints_defaults = "braces"
 
-# napoleon_google_docstring = False
-# napoleon_use_param = True
-# napoleon_use_ivar = False
-# napoleon_numpy_docstring = False
-# napoleon_attr_annotations = True
-#
+napoleon_use_param = True
+napoleon_attr_annotations = True
 
 templates_path = ['_templates']
 exclude_patterns = []
