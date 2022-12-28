@@ -5,7 +5,6 @@
 import os
 import sys
 import sphinx_rtd_theme
-import sphinx_autodoc_typehints
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
