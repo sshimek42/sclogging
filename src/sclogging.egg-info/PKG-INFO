@@ -1,12 +1,13 @@
 Metadata-Version: 2.1
 Name: sclogging
-Version: 0.72
+Version: 0.73
 Summary: A Python module (with the help of coloredlogs) to add color to logs.
 Home-page: https://github.com/sshimek42/sclogging
 Author: 
 Author-email: 
 License: MIT
 Project-URL: Homepage, https://github.com/sshimek42/sclogging
+Project-URL: Documentation, https://sclogging.readthedocs.io/
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -17,11 +18,14 @@ License-File: LICENSE
 # sclogging
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) 
-
+[![Documentation Status](https://readthedocs.org/projects/sclogging/badge/?version=latest)](https://sclogging.readthedocs.io/en/latest/?badge=latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A Python module (with the help of coloredlogs) to add color to logs.
 
-Working on docs.
+Still working on docs.
+
+[Current docs](https://sclogging.readthedocs.io)
 
 get_logger is where to get started.
 
