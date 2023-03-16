@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: sclogging
-Version: 1.0.0
+Version: 1.0.1
 Summary: A Python module (with the help of coloredlogs) to add color to logs.
 Home-page: https://github.com/sshimek42/sclogging
 Author: 
