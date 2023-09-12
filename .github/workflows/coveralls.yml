@@ -1,152 +1,29 @@
-# action.yml
-name: 'Coveralls GitHub Action'
-description: 'Send test coverage data to Coveralls.io for analysis, change tracking, and notifications.'
-author: 'Nick Merwin (Coveralls, Inc.)'
-inputs:
-  github-token:
-    description: 'Put secrets.GITHUB_TOKEN here'
-    required: false
-    default: ${{ github.token }}
-  path-to-lcov:
-    description: 'Path to lcov file [DEPRECATED]'
-    required: false
-  file:
-    description: 'Coverage file'
-    required: false
-  files:
-    description: 'Space-separated list of coverage files'
-    required: false
-  format:
-    description: 'Force coverage format, supported formats: lcov, simplecov, cobertura, jacoco, gcov, golang, python'
-    required: false
-  flag-name:
-    description: 'Job flag name, e.g. "Unit", "Functional", or "Integration". Will be shown in the Coveralls UI.'
-    required: false
-  parallel:
-    description: 'Set to true if you are running parallel jobs, then use "parallel-finished: true" for the last action.'
-    required: false
-  parallel-finished:
-    description: 'Set to true for the last action when using "parallel: true".'
-    required: false
-  carryforward:
-    description: 'Comma separated flags used to carryforward results from previous builds if some of the parallel jobs are missing.'
-    required: false
-  coveralls-endpoint:
-    description: 'Coveralls Enterprise server (more info: https://enterprise.coveralls.io)'
-    required: false
-    default: 'https://coveralls.io'
-  allow-empty:
-    description: "Don't fail when coverage report file is empty or contains no data"
-    required: false
-    default: false
-  base-path:
-    description: 'The root folder of the project that originally ran the tests'
-    required: false
-  git-branch:
-    description: 'Override the branch name'
-    required: false
-  git-commit:
-    description: 'Override the commit sha'
-    required: false
-  compare-ref:
-    description: 'Branch name to use as the base for coverage results'
-    required: false
-  compare-sha:
-    description: 'Commit SHA to use as the base for coverage results'
-    required: false
-  debug:
-    description: 'Enable debug output'
-    required: false
-    default: false
-  measure:
-    description: 'Show execution time of parsing and reporting'
-    required: false
-    default: false
-  fail-on-error:
-    description: 'Whether to fail (exit code 1) on any issues while uploading the coverage'
-    required: false
-    default: true
-outputs:
-  coveralls-api-result:
-    description: 'Result status of Coveralls API post.'
-branding:
-  color: 'green'
-  icon: 'percent'
-runs:
-  using: 'composite'
-  steps:
-    - name: Install coveralls reporter (macOS)
-      if: runner.os == 'macOS'
-      shell: bash
+on: ["push", "pull_request"]
+env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: ./run_tests.sh ${{ matrix.test-name }}
+      - name: Upload coverage data to coveralls.io
+        run: coveralls --service=github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: ${{ matrix.test-name }}
+          COVERALLS_PARALLEL: true
+  coveralls:
+    name: Indicate completion to coveralls.io
+    needs: test
+    runs-on: ubuntu-latest
+    container: python:3-slim
+    steps:
+    - name: Finished
       run: |
-        brew tap coverallsapp/coveralls --quiet
-        brew install coveralls --quiet
-
-    - name: Install coveralls reporter (Linux)
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        mkdir -p ~/bin/
-        cd ~/bin/
-        curl -sLO https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-linux.tar.gz
-        curl -sLO https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-checksums.txt
-        cat coveralls-checksums.txt | grep coveralls-linux.tar.gz | sha256sum --check
-        tar -xzf coveralls-linux.tar.gz
-        rm coveralls-checksums.txt
-        echo ~/bin >> $GITHUB_PATH
-
-    - name: Install coveralls reporter (Windows)
-      if: startsWith(runner.os, 'Windows')
-      shell: pwsh
-      run: |
-        New-Item -Path $env:HOME\bin -ItemType directory -Force
-        Push-Location $env:HOME\bin
-        Invoke-WebRequest -Uri "https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-windows.exe" -OutFile "coveralls.exe"
-        Invoke-WebRequest -Uri "https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-checksums.txt" -OutFile "sha256sums.txt"
-        (Get-FileHash coveralls.exe).Hash -eq (Get-Content ./sha256sums.txt | Where-Object{$_ -match 'windows.exe'} | ForEach-Object{($_ -split "\s+")[0]})
-        Remove-Item *.txt -Force
-        echo $env:HOME\bin | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
-
-    - name: Done report
-      if: inputs.parallel-finished == 'true'
-      shell: ${{ startsWith(runner.os, 'Windows') && 'pwsh' || 'bash' }}
-      run: >-
-        coveralls done
-        ${{ inputs.debug == 'true' && '--debug' || '' }}
-        ${{ inputs.measure == 'true' && '--measure' || '' }}
-        ${{ inputs.fail-on-error == 'false' && '--no-fail' || '' }}
+        pip3 install --upgrade coveralls
+        coveralls --service=github --finish
       env:
-        COVERALLS_DEBUG: ${{ inputs.debug }}
-        COVERALLS_CARRYFORWARD_FLAGS: ${{ inputs.carryforward }}
-        COVERALLS_FLAG_NAME: ${{ inputs.flag-name }}
-        COVERALLS_PARALLEL: ${{ inputs.parallel }}
-        COVERALLS_ENDPOINT: ${{ inputs.coveralls-endpoint }}
-        COVERALLS_GIT_BRANCH: ${{ inputs.git-branch }}
-        COVERALLS_GIT_COMMIT: ${{ inputs.git-commit }}
-        COVERALLS_REPO_TOKEN: ${{ inputs.github-token }}
-
-    - name: Coverage report
-      if: inputs.parallel-finished != 'true'
-      shell: ${{ startsWith(runner.os, 'Windows') && 'pwsh' || 'bash' }}
-      run: >-
-        coveralls report
-        ${{ inputs.debug == 'true' && '--debug' || '' }}
-        ${{ inputs.measure == 'true' && '--measure' || '' }}
-        ${{ inputs.fail-on-error == 'false' && '--no-fail' || '' }}
-        ${{ inputs.allow-empty == 'true' && '--allow-empty' || '' }}
-        ${{ inputs.base-path && format('--base-path {0}', inputs.base-path) || '' }}
-        ${{ inputs.format && format('--format {0}', inputs.format) || '' }}
-        ${{ inputs.file || inputs.path-to-lcov }}
-        ${{ inputs.files }}
-      env:
-        COVERALLS_DEBUG: ${{ inputs.debug }}
-        COVERALLS_CARRYFORWARD_FLAGS: ${{ inputs.carryforward }}
-        COVERALLS_FLAG_NAME: ${{ inputs.flag-name }}
-        COVERALLS_PARALLEL: ${{ inputs.parallel }}
-        COVERALLS_ENDPOINT: ${{ inputs.coveralls-endpoint }}
-        COVERALLS_GIT_BRANCH: ${{ inputs.git-branch }}
-        COVERALLS_GIT_COMMIT: ${{ inputs.git-commit }}
-        COVERALLS_REPO_TOKEN: ${{ inputs.github-token }}
-        COVERALLS_COMPARE_REF: ${{ inputs.compare-ref }}
-        COVERALLS_COMPARE_SHA: ${{ inputs.compare-sha }}
-        COVERALLS_SOURCE_HEADER: github-action
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
