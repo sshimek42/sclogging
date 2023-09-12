@@ -293,7 +293,7 @@ def set_log_path(path: str = log_path,
                 os.makedirs(path)
             except OSError as error:
                 base_log.error(error)
-                sys.exit(error)
+                sys.exit(str(error))
         else:
             base_log.error("Log path not created")
             sys.exit("Log path not created")
