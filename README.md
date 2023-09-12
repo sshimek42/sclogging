@@ -3,6 +3,10 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) 
 [![Documentation Status](https://readthedocs.org/projects/sclogging/badge/?version=latest)](https://sclogging.readthedocs.io/en/latest/?badge=latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PyPI version](https://badge.fury.io/py/sclogging.svg)](https://badge.fury.io/py/sclogging)
+[![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/latest_release_date.svg)](https://anaconda.org/sshimek42/sclogging)
+[![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/version.svg)](https://anaconda.org/sshimek42/sclogging)
+
 
 A Python module (with the help of coloredlogs) to add color to logs.
 
@@ -22,11 +26,13 @@ Easily setting seperate options for stderr and file logs
 
 Custom timer class
 
-  Allows this: var_a = Timer(level="INFO")
-  
-               var_a.start_timer(Note="I started it")
+  Allows this: 
+
+                 var_a = Timer(level="INFO")
+                 var_a.start_timer(Note="I started it")
                
-  Log record =  time <spacer> var_a.module.function.start_timer INFO I started it
+  Log record:
+    time spacer var_a.module.function.start_timer INFO I started it
   
   
 Wraps logging, colorama.BACK, FORE, CURSOR

@@ -71,7 +71,8 @@ class NameFilter(logging.Filter):
         record.name = fix_mod_path(record.name)
         if record.name != record.module:
             record.funcName = f"{record.module}.{record.funcName}"
-        spacers = (spacer_color + spacer) * (58 - len(record.funcName))
+        term_c = get_terminal_size()
+        spacers = (spacer_color + spacer) * (term_c - len(record.funcName))
         record.filefuncName = record.funcName
         record.msg = str(record.msg)
         record.filemessage = re.sub(r"%\w.\w*%|%\w%", "", record.msg)
