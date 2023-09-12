@@ -1,3 +1,4 @@
+on: ["push", "pull_request"]
 # action.yml
 name: 'Coveralls GitHub Action'
 description: 'Send test coverage data to Coveralls.io for analysis, change tracking, and notifications.'
