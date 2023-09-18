@@ -14,11 +14,11 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: dynaconf~=3.2.2
-Requires-Dist: colorama~=0.4.5
-Requires-Dist: coloredlogs~=15.0.1
-Requires-Dist: PyInputPlus~=0.2.12
-Requires-Dist: setuptools~=68.2.2
+Requires-Dist: dynaconf>=3.2.2
+Requires-Dist: colorama>=0.4.5
+Requires-Dist: coloredlogs>=15.0.1
+Requires-Dist: PyInputPlus>=0.2.12
+Requires-Dist: setuptools>=68.2.2
 
 # sclogging
 
