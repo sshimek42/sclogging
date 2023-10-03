@@ -329,12 +329,12 @@ def verify_level(level: [str, int]) -> bool:
 
     if invalid_level:
         exit_string = (f"ERROR - Invalid debug level\n"
-                       f"You entered %c.cyan%{level}%c%\n"
+                       f"You entered %f.cyan%{level}%f%\n"
                        f"Acceptable levels are:\n{level_numbers_string}")
         level_dym = difflib.get_close_matches(level,
                                               level_numbers_string.split(", "))
         if level_dym:
-            exit_string += f"\nDid you mean: %c.cyan%{level_dym[0]}%c%?"
+            exit_string += f"\nDid you mean: %f.cyan%{level_dym[0]}%f%?"
         base_log.warning(exit_string)
         return False
     return True
@@ -497,7 +497,8 @@ class Timer:
 
         if not note:
             if show_process:
-                logger_note = f"Timer took {total_time:.3f} seconds - " f"{self.vid}"
+                logger_note = f"Timer took {total_time:.3f} seconds - " \
+                              f"{self.vid}"
             else:
                 logger_note = f"Timer took {total_time:.3f} seconds"
         else:
