@@ -497,8 +497,7 @@ class Timer:
 
         if not note:
             if show_process:
-                logger_note = f"Timer took {total_time:.3f} seconds - " \
-                              f"{self.vid}"
+                logger_note = f"Timer took {total_time:.3f} seconds - " f"{self.vid}"
             else:
                 logger_note = f"Timer took {total_time:.3f} seconds"
         else:
