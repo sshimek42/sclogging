@@ -2,4 +2,4 @@ dynaconf==3.2.4
 colorama~=0.4.5
 coloredlogs~=15.0.1
 PyInputPlus~=0.2.12
-setuptools~=68.2.2
+setuptools>=68.2.2,<69.1.0
