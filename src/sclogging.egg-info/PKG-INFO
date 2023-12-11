@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: sclogging
-Version: 1.0.2
+Version: 1.0.3
 Summary: A Python module (with the help of coloredlogs) to add color to logs.
 Home-page: https://github.com/sshimek42/sclogging
 Author: 
@@ -11,14 +11,14 @@ Project-URL: Documentation, https://sclogging.readthedocs.io/
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.10
+Requires-Python: <=3.11,>=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: dynaconf>=3.2.2
+Requires-Dist: dynaconf>=3.2.4
 Requires-Dist: colorama>=0.4.5
 Requires-Dist: coloredlogs>=15.0.1
 Requires-Dist: PyInputPlus>=0.2.12
-Requires-Dist: setuptools>=68.2.2
+Requires-Dist: setuptools>=69.0.2
 
 # sclogging
 
