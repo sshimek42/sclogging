@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69.0.2"]
+requires = ["setuptools>=72.2.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -14,11 +14,11 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "dynaconf>=3.2.4",
+    "dynaconf>=3.2.6",
     "colorama>=0.4.5",
     "coloredlogs>=15.0.1",
     "PyInputPlus>=0.2.12",
-    "setuptools>=69.0.2",
+    "setuptools>=72.2.0",
 ]
 
 [project.urls]
