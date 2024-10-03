@@ -7,7 +7,6 @@ pyproject.toml
 requirements.txt
 setup.py
 .github/dependabot.yml
-.github/workflows/codeql.yml
 .github/workflows/python-app.yml
 .github/workflows/python-publish.yml
 docs/Makefile
