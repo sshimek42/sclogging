@@ -16,10 +16,10 @@ sys.path.append(os.path.abspath("../"))
 autodoc_mock_imports = ["coloredlogs", "pyinputplus"]
 
 project = "SCLogging"
-copyright = "2023, sshimek42"
+copyright = "2024, sshimek42"
 author = "sshimek42"
-release = "1.0.4"
-version = "1.0.4"
+release = "1.0.5"
+version = "1.0.5"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
