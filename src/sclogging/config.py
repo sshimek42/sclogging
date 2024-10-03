@@ -1,4 +1,5 @@
 """Settings config"""
+
 from os.path import dirname, exists, join
 
 from dynaconf import Dynaconf, Validator, loaders
