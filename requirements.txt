@@ -2,5 +2,5 @@ dynaconf==3.2.6
 colorama~=0.4.5
 coloredlogs~=15.0.1
 PyInputPlus~=0.2.12
-setuptools==75.8.0
+setuptools==78.1.0
 sphinx_rtd_theme~=3.0.2
