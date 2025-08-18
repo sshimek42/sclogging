@@ -312,7 +312,7 @@ def fix_mod_path(caller_name: str) -> str:
     return caller_name
 
 
-def verify_level(level: [str, int]) -> bool:
+def verify_level(level: str | int) -> bool:
     """Verifies debug level
 
     :param level: Level to check
@@ -382,7 +382,7 @@ def clear_logs(force: bool = False):
         base_logger.warning("Delete cancelled")
 
 
-def get_parent_logger() -> [None, logging.Logger]:
+def get_parent_logger() -> None | logging.Logger:
     """Return logger from calling module
 
     :return:
@@ -405,7 +405,7 @@ class Timer:
 
     _counter = 0
 
-    def __init__(self, level: [str, int] = "DEBUG"):
+    def __init__(self, level: str | int = "DEBUG"):
         Timer._counter += 1
         self.count = Timer._counter
         self.start_time = 0
@@ -561,9 +561,9 @@ class CallerFilter(logging.Filter):
 
 def get_logger(
     caller_name: str = None,
-    level: [str, int] = default_level,
+    level: str | int = default_level,
     log_to_file: bool = default_log_to_file,
-    log_file_level: [str, int] = default_file_level,
+    log_file_level: str | int = default_file_level,
 ) -> logging.Logger:
     """Configures a logger
 
@@ -622,9 +622,9 @@ def get_logger(
 
 
 def set_config(
-    default_log_level: [str, int] = default_level,
+    default_log_level: str | int = default_level,
     log_to_file: bool = default_log_to_file,
-    log_file_level: [str, int] = default_file_level,
+    log_file_level: str | int = default_file_level,
     log_file_path: str = default_log_path,
     log_extension: str = default_log_ext,
     display_spacer: str = spacer,

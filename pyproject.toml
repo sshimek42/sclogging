@@ -1,24 +1,25 @@
 [build-system]
-requires = ["setuptools>=75.1.0"]
+requires = ["setuptools>=80.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "sclogging"
-dynamic = ["version", "license"]
+dynamic = ["version"]
 description = "A Python module (with the help of coloredlogs) to add color to logs."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "dynaconf>=3.2.6",
+    "dynaconf>=3.2.11",
     "colorama>=0.4.5",
     "coloredlogs>=15.0.1",
     "PyInputPlus>=0.2.12",
-    "setuptools>=75.1.0",
+    "setuptools>=80.9.0",
 ]
 
 [project.urls]

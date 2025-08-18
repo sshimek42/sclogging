@@ -16,10 +16,10 @@ sys.path.append(os.path.abspath("../"))
 autodoc_mock_imports = ["coloredlogs", "pyinputplus"]
 
 project = "SCLogging"
-copyright = "2024, sshimek42"
+copyright = "2025, sshimek42"
 author = "sshimek42"
-release = "1.0.5"
-version = "1.0.5"
+release = "1.0.6"
+version = "1.0.6"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -29,6 +29,24 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx_rtd_theme",
     "sphinx.ext.napoleon",
+    "myst_parser"
+]
+
+myst_enable_extensions = [
+    "amsmath",
+    "attrs_inline",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "fieldlist",
+    "html_admonition",
+    "html_image",
+    "linkify",
+    "replacements",
+    "smartquotes",
+    "strikethrough",
+    "substitution",
+    "tasklist",
 ]
 
 autodoc_typehints = "both"
