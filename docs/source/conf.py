@@ -29,7 +29,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx_rtd_theme",
     "sphinx.ext.napoleon",
-    "myst_parser"
+    "myst_parser",
 ]
 
 myst_enable_extensions = [
