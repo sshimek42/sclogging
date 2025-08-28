@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Main Files" pattern="file[sclogging]:src/sclogging//*" />
+</component>
