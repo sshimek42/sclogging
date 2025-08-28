@@ -1,0 +1,45 @@
+{% set name = "pyinputplus" %}
+{% set version = "0.2.12" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://files.pythonhosted.org/packages/6a/d4/afb45ed88323ef6d3c4cbf48e9c1bac38059a168b8392a56f3b8f9d1d39c/PyInputPlus-0.2.12.tar.gz"
+  sha256: 3a86b03dc6d003fec7dc627ad175cacaaf6e14a6a3b13b34c8fe6f5d01506231
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
+  noarch: python
+
+requirements:
+  host:
+    - pip
+    - pysimplevalidate >=0.2.7
+    - python
+    - stdiomask >=0.0.3
+    - typing
+  run:
+    - pysimplevalidate >=0.2.7
+    - python
+    - stdiomask >=0.0.3
+    - typing
+
+test:
+  imports:
+    - pyinputplus
+
+about:
+  home: "https://github.com/asweigart/pyinputplus"
+  license: BSD
+  license_family: BSD
+  license_file: 
+  summary: "Provides more featureful versions of input() and raw_input()."
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here

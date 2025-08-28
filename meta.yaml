@@ -1,0 +1,31 @@
+package:
+  name: sclogging
+  version: 1.0.6
+
+build:
+  noarch: python
+  number: 0
+  script: python -m pip install --no-deps --ignore-installed . --ignore-requires-python
+
+source:
+  url: https://files.pythonhosted.org/packages/b1/13/a910dc7de96ee35ab45f94f43d33c987da8acb227e846c6a13a1336bd7d1/sclogging-1.0.6.tar.gz
+  sha256: f7f005eb4aea7a0e43c5fa748f59e1aa957078783642b42af1d515cc9819c03b
+  md5: 7e77341aa22f1c92185d1e2ac456c50c
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+
+test:
+  imports:
+    - sclogging
+
+about:
+  summary: 'A Python module (with the help of coloredlogs) to add color to logs.'
+  license: MIT
+  license_file: LICENSE
+  dev_url: https://github.com/sshimek42/sclogging
+  doc_url: https://sclogging.readthedocs.io/
