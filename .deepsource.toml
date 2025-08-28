@@ -5,6 +5,9 @@ name = "secrets"
 
 [[analyzers]]
 name = "python"
+dependency_file_paths = [
+  "requirements.txt"
+]
 
   [analyzers.meta]
   runtime_version = "3.x.x"
@@ -22,3 +25,6 @@ name = "autopep8"
 
 [[transformers]]
 name = "yapf"
+
+[[transformers]]
+name = "ruff"
