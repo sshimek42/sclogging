@@ -13,8 +13,8 @@ from datetime import datetime
 
 import colorama as cr
 import coloredlogs as cl
-import pyinputplus as py_option
 
+import pyinputplus as py_option
 from sclogging.config import settings, write_config
 
 
