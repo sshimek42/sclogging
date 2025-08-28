@@ -20,7 +20,14 @@
 # If you're wondering how this is created, it is generated using
 # `scripts/generate.py` in https://github.com/pypa/get-pip.
 
+import argparse
+import importlib
+import os.path
+import pkgutil
+import shutil
 import sys
+import tempfile
+from base64 import b85decode
 
 this_python = sys.version_info[:2]
 min_version = (3, 7)
@@ -28,19 +35,11 @@ if this_python < min_version:
     message_parts = [
         "This script does not work on Python {}.{}".format(*this_python),
         "The minimum supported Python version is {}.{}.".format(*min_version),
-        "Please use https://bootstrap.pypa.io/pip/{}.{}/get-pip.py instead.".format(*this_python),
+        "Please use https://bootstrap.pypa.io/pip/{}.{}/get-pip.py instead.".
+        format(*this_python),
     ]
     print("ERROR: " + " ".join(message_parts))
     sys.exit(1)
-
-
-import os.path
-import pkgutil
-import shutil
-import tempfile
-import argparse
-import importlib
-from base64 import b85decode
 
 
 def include_setuptools(args):
@@ -113,6 +112,7 @@ def bootstrap(tmpdir):
     # Execute the included pip and use it to install the latest pip and
     # setuptools from PyPI
     from pip._internal.cli.main import main as pip_entry_point
+
     args = determine_pip_install_arguments()
     sys.exit(pip_entry_point(args))
 
@@ -32261,7 +32261,6 @@ _Zewp`X>Mn8FKugVVPa)$b1rasP)h*<6ay3h000O8<&#lXXE<=Dxdi|KqZt4IApigX0000000000q=B
 8xw00000000000001_fvi~`0B~t=FJE?LZe(wAFLz~PWo~0{WNB_^b1!&bb#rBMUu0!wX>Mg?E^v8JO
 9ci10002=0rUaJng9TqULF7d00
 """
-
 
 if __name__ == "__main__":
     main()
