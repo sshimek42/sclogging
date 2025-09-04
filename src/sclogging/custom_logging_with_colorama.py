@@ -1,6 +1,5 @@
 """Custom logging module with coloredlogs"""
 
-
 # *****************************************************************************
 #  MIT License                                                                *
 #                                                                             *
@@ -152,15 +151,22 @@ for get_valid_cursor in dir(cr.Cursor):
 
 valid_attrib = [valid_colors, valid_styles, valid_back, valid_cursor]
 # Map style tag to allowed attributes for clarity (avoid index coupling)
-VALID_ATTR_BY_TAG = {"f": set(valid_colors), "s": set(valid_styles), "b": set(valid_back)}
+VALID_ATTR_BY_TAG = {
+    "f": set(valid_colors),
+    "s": set(valid_styles),
+    "b": set(valid_back),
+}
 
 total_reset = cr.Fore.RESET + cr.Style.RESET_ALL + cr.Back.RESET
 
 # Extracted constants for formats and date
 LOG_DATE_FMT = "%Y-%m-%d %H:%M:%S"
-FILE_LOG_FORMAT = r"%(asctime)s.%(msecs)03d,%(filefuncName)s,%(levelname)s,%(filemessage)s"
+FILE_LOG_FORMAT = (
+    r"%(asctime)s.%(msecs)03d,%(filefuncName)s,%(levelname)s,%(filemessage)s"
+)
 CONSOLE_LOG_FORMAT = (
-    r"%(asctime)s.%(msecs)03d %(name)-20s %(funcName)-60s " + " %(levelname)-10s %(message)-s"
+    r"%(asctime)s.%(msecs)03d %(name)-20s %(funcName)-60s "
+    + " %(levelname)-10s %(message)-s"
 )
 CALLER_LOG_FORMAT = (
     r"%(asctime)s.%(msecs)03d %(name)-20s %(caller)-60s  "
@@ -325,7 +331,9 @@ def verify_level(level: str | int) -> bool:
             f"You entered %f.cyan%{level}%f%\n"
             f"Acceptable levels are:\n{level_numbers_string}"
         )
-        level_dym = difflib.get_close_matches(str(level), level_numbers_string.split(", "))
+        level_dym = difflib.get_close_matches(
+            str(level), level_numbers_string.split(", ")
+        )
         if level_dym:
             exit_string += f"\nDid you mean: %f.cyan%{level_dym[0]}%f%?"
         base_log.warning(exit_string)
@@ -675,7 +683,10 @@ def set_config(
     if log_extension.startswith("."):
         log_extension = log_extension[1:]
     # Ensure spacer color is valid
-    if isinstance(display_spacer_color, str) and display_spacer_color.upper() not in valid_colors:
+    if (
+        isinstance(display_spacer_color, str)
+        and display_spacer_color.upper() not in valid_colors
+    ):
         display_spacer_color = spacer_color
 
     settings_write = {
