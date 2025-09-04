@@ -1,6 +1,5 @@
 """Custom logging module with coloredlogs"""
 
-
 # *****************************************************************************
 #  MIT License                                                                *
 #                                                                             *
