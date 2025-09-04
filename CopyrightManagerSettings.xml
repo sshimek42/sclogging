@@ -1,0 +1,13 @@
+<!-- XML -->
+<component name="CopyrightManager">
+  <settings default="MIT License Profile">
+    <module2copyright>
+      <!-- Apply to the entire project -->
+      <element module="All" copyright="MIT License Profile"/>
+    </module2copyright>
+    <!-- Optional default OWNER if not set in IDE settings -->
+    <options>
+      <option name="owner" value="sshimek42" />
+    </options>
+  </settings>
+</component>
