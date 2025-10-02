@@ -1,5 +1,6 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from sclogging.custom_logging_with_colorama import (
     Timer,
     clear_logs,
