@@ -47,7 +47,8 @@ def __getattr__(name):
     for each_mod in search_mods:
         if hasattr(each_mod, name):
             mod_name = search_strs[search_mods.index(each_mod)]
-            dup_dict.update({name: getattr(each_mod, name), mod_name: each_mod})
+            dup_dict.update(
+                {name: getattr(each_mod, name), mod_name: each_mod})
     if len(dup_dict) > 2:
         dup_dict.pop(name)
         raise AttributeError(
@@ -94,7 +95,8 @@ class NameFilter(logging.Filter):
         style_tag = {"f": "fore", "s": "style", "b": "back"}
         each_attrib_count = 0
         for style_search in style_tag:
-            style_regex = r"%" + style_search + r"\.(\w*)%(.*?)%" + style_search + r"%"
+            style_regex = r"%" + style_search + \
+                r"\.(\w*)%(.*?)%" + style_search + r"%"
             add_attrib = re.findall(style_regex, record.msg)
             if add_attrib:
                 for each_specific_attrib in add_attrib:
@@ -123,7 +125,8 @@ class NameFilter(logging.Filter):
                 if curr_faint:
                     curr_faint = cr.Style.DIM
 
-        curr_color = error_color_format.get(record.levelname.lower()).get("color", "")
+        curr_color = error_color_format.get(
+            record.levelname.lower()).get("color", "")
         if curr_color.isnumeric():
             curr_color = "\033[" + curr_color + "m"
         else:
@@ -140,7 +143,8 @@ class NameFilter(logging.Filter):
         curr_reset = curr_back + curr_color + curr_faint + curr_bold
         reset_text = curr_reset + fixed_text.replace(cr.Fore.RESET, curr_color)
         reset_text = reset_text.replace(cr.Back.RESET, curr_back)
-        reset_text = reset_text.replace(cr.Style.RESET_ALL, curr_faint + curr_bold)
+        reset_text = reset_text.replace(
+            cr.Style.RESET_ALL, curr_faint + curr_bold)
         record.msg = reset_text + curr_reset
         return True
 
@@ -217,12 +221,14 @@ default_log_ext = "log"
 try:
     default_log_path = settings.logging_path
 except AttributeError:
-    base_log.critical(f"'logging_path' missing in settings using {default_log_path}")
+    base_log.critical(
+        f"'logging_path' missing in settings using {default_log_path}")
 
 try:
     default_level = settings.logging_level
 except AttributeError:
-    base_log.critical(f"'logging_level' missing in settings using {default_level}")
+    base_log.critical(
+        f"'logging_level' missing in settings using {default_level}")
 
 try:
     default_file_level = settings.logging_file_level
@@ -248,7 +254,8 @@ except AttributeError:
 try:
     default_log_ext = settings.logging_ext
 except AttributeError:
-    base_log.critical(f"'logging_ext' missing in settings using {default_log_ext}")
+    base_log.critical(
+        f"'logging_ext' missing in settings using {default_log_ext}")
 
 cl.install(logger=base_log)
 log_path = os.path.normpath(default_log_path)
@@ -339,7 +346,8 @@ def verify_level(level: str | int) -> bool:
             f"You entered %f.cyan%{level}%f%\n"
             f"Acceptable levels are:\n{level_numbers_string}"
         )
-        level_dym = difflib.get_close_matches(level, level_numbers_string.split(", "))
+        level_dym = difflib.get_close_matches(
+            level, level_numbers_string.split(", "))
         if level_dym:
             exit_string += f"\nDid you mean: %f.cyan%{level_dym[0]}%f%?"
         base_log.warning(exit_string)
@@ -493,7 +501,8 @@ class Timer:
         fcaller = f"{self.caller}.{self.function}.{local_func}.{self.vid}"
         setattr(Timer, "scaller", fcaller)
         if not self.start_time:
-            self.logger.log(logging.getLevelName(self.level), "Timer was not started")
+            self.logger.log(logging.getLevelName(
+                self.level), "Timer was not started")
             setattr(Timer, "svid", "")
             setattr(Timer, "scaller", "")
             return 0
@@ -536,8 +545,7 @@ def text_color(text: str, style: str, attrib: str) -> str:
     elif attrib.lower() == "style":
         reset = cr.Style.RESET_ALL
 
-    return (getattr(getattr(cr, attrib.title()), style.upper()) + repr(text)
-            + reset)
+    return getattr(getattr(cr, attrib.title()), style.upper()) + repr(text) + reset
 
 
 class CallerFilter(logging.Filter):
@@ -607,7 +615,8 @@ def get_logger(
     log_file_name = f"{caller_name}-{log_time}.{default_log_ext}"
     log_full_path = os.path.join(log_path, log_file_name)
 
-    log_formatter = logging.Formatter(fmt=file_log_format, datefmt="%Y-%m-%d %H:%M:%S")
+    log_formatter = logging.Formatter(
+        fmt=file_log_format, datefmt="%Y-%m-%d %H:%M:%S")
 
     logger = logging.getLogger(caller_name)
     logger.setLevel(level)
@@ -714,7 +723,8 @@ def set_config(
             try:
                 logging.getLogger(lkey).setLevel(specific_loggers.get(lkey))
             except ValueError:
-                logging.warning(f"Cannot set {key} to {specific_loggers.get(key)}")
+                logging.warning(
+                    f"Cannot set {key} to {specific_loggers.get(key)}")
 
 
 cr.init(autoreset=True)
