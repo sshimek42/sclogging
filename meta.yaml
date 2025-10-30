@@ -8,9 +8,9 @@ build:
   script: python -m pip install --no-deps --ignore-installed . --ignore-requires-python
 
 source:
-  url: https://files.pythonhosted.org/packages/b1/13/a910dc7de96ee35ab45f94f43d33c987da8acb227e846c6a13a1336bd7d1/sclogging-1.0.6.tar.gz
-  sha256: f7f005eb4aea7a0e43c5fa748f59e1aa957078783642b42af1d515cc9819c03b
-  md5: 7e77341aa22f1c92185d1e2ac456c50c
+  url: https://files.pythonhosted.org/packages/42/f1/1d86ee963808c7b50da7193a8c6bd2b6d0d7112519c4367fe5eb06803441/sclogging-1.0.8.tar.gz
+  sha256: 7834e76d2f9989508bb678f3bf3ca842e562c6b28d3023e6adffcee6e6c6941e
+  md5: f3921d38962372698896f2680d3888f1
 
 requirements:
   host:
