@@ -536,8 +536,7 @@ def text_color(text: str, style: str, attrib: str) -> str:
     elif attrib.lower() == "style":
         reset = cr.Style.RESET_ALL
 
-    return (getattr(getattr(cr, attrib.title()), style.upper()) + repr(text)
-            + reset)
+    return getattr(getattr(cr, attrib.title()), style.upper()) + repr(text) + reset
 
 
 class CallerFilter(logging.Filter):
