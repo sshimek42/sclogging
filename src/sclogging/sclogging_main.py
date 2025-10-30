@@ -405,7 +405,7 @@ def get_parent_logger() -> None | logging.Logger:
             for fs in fl.frame.f_locals:
                 if type(fl.frame.f_locals.get(fs)) is logging.Logger:
                     return fl.frame.f_locals.get(fs)
-    return None
+    return get_logger()
 
 
 class Timer:

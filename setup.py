@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="sclogging",
-    version="1.0.7",
+    version="1.0.8",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     package_data={"sclogging": ["config.py", "settings.toml"]},
