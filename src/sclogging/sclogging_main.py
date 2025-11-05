@@ -10,7 +10,7 @@
 #  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # *****************************************************************************
 
-import codecs
+
 import difflib
 import inspect
 import logging
@@ -28,6 +28,10 @@ import coloredlogs as cl
 import pyinputplus as py_option
 from sclogging.config import settings, write_config
 
+# Constants for style tag processing
+STYLE_TAGS = {"f": "fore", "s": "style", "b": "back"}
+STYLE_TAG_PATTERN = r"%{tag}\.(\w*)%(.*?)%{tag}%"
+MESSAGE_TAG_STRIP_PATTERN = r"%\w.\w*%|%\w%"
 
 def get_terminal_size() -> int:
     """
@@ -66,15 +70,8 @@ class NameFilter(logging.Filter):
         super().__init__()
         self.name = "NameFilter"
 
-    def filter(self, record: logging.LogRecord) -> bool:
-        """
-        Console filter
-
-        :param record: Record to emit
-        :type record: logging.LogRecord
-        :return: Record
-        :rtype: bool
-        """
+    def _prepare_record_metadata(self, record: logging.LogRecord) -> None:
+        """Prepare record name, function name, and add spacers."""
         caller_exist = getattr(record, "caller", "")
         if not caller_exist:
             record.caller = ""
@@ -85,65 +82,110 @@ class NameFilter(logging.Filter):
         spacers = (spacer_color + spacer) * (term_c - len(record.funcName))
         record.filefuncName = record.funcName
         record.msg = str(record.msg)
-        record.filemessage = re.sub(r"%\w.\w*%|%\w%", "", record.msg)
+        record.filemessage = re.sub(MESSAGE_TAG_STRIP_PATTERN, "", record.msg)
         record.funcName = f"{record.funcName} {spacers}"
 
-        fixed_text = record.msg
+    def _extract_style_attributes(self, message: str, level_name: str) -> \
+    tuple[str, str, str]:
+        """
+        Extract and apply style tags from message.
+
+        :return: Tuple of (formatted_message, bold_style, faint_style)
+        """
+        fixed_text = message
         curr_bold = ""
         curr_faint = ""
-        style_tag = {"f": "fore", "s": "style", "b": "back"}
+
         each_attrib_count = 0
-        for style_search in style_tag:
-            style_regex = r"%" + style_search + r"\.(\w*)%(.*?)%" + style_search + r"%"
-            add_attrib = re.findall(style_regex, record.msg)
+        for style_search, style_name in STYLE_TAGS.items():
+            style_regex = STYLE_TAG_PATTERN.format(tag=style_search)
+            add_attrib = re.findall(style_regex, message)
             if add_attrib:
                 for each_specific_attrib in add_attrib:
                     attrib_add = each_specific_attrib[0]
-                    if attrib_add.upper() not in valid_attrib[each_attrib_count]:
+                    if attrib_add.upper() not in valid_attrib[
+                        each_attrib_count]:
                         print(f"Invalid option specified - {attrib_add}")
                         continue
                     fixed_text = re.sub(
                         style_regex,
                         text_color(
-                            each_specific_attrib[1], attrib_add, style_tag[style_search]
-                        ),
+                            each_specific_attrib[1], attrib_add, style_name
+                            ),
                         fixed_text,
                         count=1,
-                    )
+                        )
             each_attrib_count += 1
             if style_search == "s":
-                curr_bold = error_color_format.get(record.levelname.lower()).get(
+                curr_bold = error_color_format.get(level_name.lower()).get(
                     "bright", ""
-                )
+                    )
                 if curr_bold:
                     curr_bold = cr.Style.BRIGHT
-                curr_faint = error_color_format.get(record.levelname.lower()).get(
+                curr_faint = error_color_format.get(level_name.lower()).get(
                     "faint", ""
-                )
+                    )
                 if curr_faint:
                     curr_faint = cr.Style.DIM
 
-        curr_color = error_color_format.get(record.levelname.lower()).get("color", "")
+        return fixed_text, curr_bold, curr_faint
+
+    def _resolve_level_colors(self, level_name: str) -> tuple[str, str]:
+        """
+        Resolve foreground and background colors for the given log level.
+
+        :return: Tuple of (foreground_color, background_color)
+        """
+        curr_color = error_color_format.get(level_name.lower()).get(
+            "color", ""
+            )
         if curr_color.isnumeric():
             curr_color = "\033[" + curr_color + "m"
         else:
             curr_color = getattr(cr.Fore, curr_color.upper(), "")
 
-        curr_back = error_color_format.get(record.levelname.lower()).get(
+        curr_back = error_color_format.get(level_name.lower()).get(
             "background", ""
-        )
+            )
         if curr_back.isnumeric():
             curr_back = "\033[" + curr_back
         else:
             curr_back = getattr(cr.Back, curr_back.upper(), "")
 
-        curr_reset = curr_back + curr_color + curr_faint + curr_bold
-        reset_text = curr_reset + fixed_text.replace(cr.Fore.RESET, curr_color)
-        reset_text = reset_text.replace(cr.Back.RESET, curr_back)
-        reset_text = reset_text.replace(cr.Style.RESET_ALL, curr_faint + curr_bold)
-        record.msg = reset_text + curr_reset
-        return True
+        return curr_color, curr_back
 
+    def _apply_formatting(
+        self, text: str, fore_color: str, back_color: str,
+        bold: str, faint: str
+        ) -> str:
+        """Apply final color and style formatting to text."""
+        curr_reset = back_color + fore_color + faint + bold
+        reset_text = curr_reset + text.replace(cr.Fore.RESET, fore_color)
+        reset_text = reset_text.replace(cr.Back.RESET, back_color)
+        reset_text = reset_text.replace(cr.Style.RESET_ALL, faint + bold)
+        return reset_text + curr_reset
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        """
+        Console filter
+        :param record: Record to emit
+        :type record: logging.LogRecord
+        :return: Record
+        :rtype: bool
+        """
+        self._prepare_record_metadata(record)
+
+        fixed_text, curr_bold, curr_faint = self._extract_style_attributes(
+            record.msg, record.levelname
+            )
+
+        curr_color, curr_back = self._resolve_level_colors(record.levelname)
+
+        record.msg = self._apply_formatting(
+            fixed_text, curr_color, curr_back, curr_bold, curr_faint
+            )
+
+        return True
 
 base_log = logging.getLogger(__file__)
 base_log.addFilter(NameFilter())
@@ -393,7 +435,7 @@ def clear_logs(force: bool = False):
         base_logger.warning("Delete cancelled")
 
 
-def get_parent_logger() -> None | logging.Logger:
+def get_parent_logger() -> logging.Logger:
     """Return logger from calling module
 
     :return:
@@ -405,7 +447,7 @@ def get_parent_logger() -> None | logging.Logger:
             for fs in fl.frame.f_locals:
                 if type(fl.frame.f_locals.get(fs)) is logging.Logger:
                     return fl.frame.f_locals.get(fs)
-    return get_logger()
+    return get_logger(inspect.stack()[1].filename)
 
 
 class Timer:
