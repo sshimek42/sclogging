@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from sclogging.custom_logging_with_colorama import (
+from sclogging.sclogging_main import (
     Timer,
     clear_logs,
     get_logger,
@@ -9,7 +9,7 @@ from sclogging.custom_logging_with_colorama import (
 )
 
 # Centralize patch target to avoid repetition and typos
-MODULE = "sclogging.custom_logging_with_colorama"
+MODULE = "sclogging.sclogging_main"
 
 
 class TestClearLogs(unittest.TestCase):

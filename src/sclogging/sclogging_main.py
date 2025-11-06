@@ -578,7 +578,9 @@ def text_color(text: str, style: str, attrib: str) -> str:
     elif attrib.lower() == "style":
         reset = cr.Style.RESET_ALL
 
-    return (getattr(getattr(cr, attrib.title()), style.upper()) + repr(text)
+    r_text =  repr(text)[1:-1]
+
+    return (getattr(getattr(cr, attrib.title()), style.upper()) + r_text
             + reset)
 
 
