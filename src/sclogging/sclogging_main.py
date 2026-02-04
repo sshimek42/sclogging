@@ -263,7 +263,7 @@ except AttributeError:
     base_log.critical(
         f"'logging_path' missing in settings using {default_log_path}")
 
-    default_log_path = default_log_path.replace("~", str(Path.home()))
+default_log_path = default_log_path.replace("~", str(Path.home()))
 
 try:
     default_level = settings.logging_level
