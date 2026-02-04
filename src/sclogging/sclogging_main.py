@@ -10,7 +10,6 @@
 #  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 # *****************************************************************************
 
-
 import difflib
 import inspect
 import logging
@@ -33,6 +32,7 @@ from sclogging.config import settings, write_config
 STYLE_TAGS = {"f": "fore", "s": "style", "b": "back"}
 STYLE_TAG_PATTERN = r"%{tag}\.(\w*)%(.*?)%{tag}%"
 MESSAGE_TAG_STRIP_PATTERN = r"%\w.\w*%|%\w%"
+
 
 def get_terminal_size() -> int:
     """
@@ -86,8 +86,9 @@ class NameFilter(logging.Filter):
         record.filemessage = re.sub(MESSAGE_TAG_STRIP_PATTERN, "", record.msg)
         record.funcName = f"{record.funcName} {spacers}"
 
-    def _extract_style_attributes(self, message: str, level_name: str) -> \
-    tuple[str, str, str]:
+    def _extract_style_attributes(
+        self, message: str, level_name: str
+    ) -> tuple[str, str, str]:
         """
         Extract and apply style tags from message.
 
@@ -104,28 +105,21 @@ class NameFilter(logging.Filter):
             if add_attrib:
                 for each_specific_attrib in add_attrib:
                     attrib_add = each_specific_attrib[0]
-                    if attrib_add.upper() not in valid_attrib[
-                        each_attrib_count]:
+                    if attrib_add.upper() not in valid_attrib[each_attrib_count]:
                         print(f"Invalid option specified - {attrib_add}")
                         continue
                     fixed_text = re.sub(
                         style_regex,
-                        text_color(
-                            each_specific_attrib[1], attrib_add, style_name
-                            ),
+                        text_color(each_specific_attrib[1], attrib_add, style_name),
                         fixed_text,
                         count=1,
-                        )
+                    )
             each_attrib_count += 1
             if style_search == "s":
-                curr_bold = error_color_format.get(level_name.lower()).get(
-                    "bright", ""
-                    )
+                curr_bold = error_color_format.get(level_name.lower()).get("bright", "")
                 if curr_bold:
                     curr_bold = cr.Style.BRIGHT
-                curr_faint = error_color_format.get(level_name.lower()).get(
-                    "faint", ""
-                    )
+                curr_faint = error_color_format.get(level_name.lower()).get("faint", "")
                 if curr_faint:
                     curr_faint = cr.Style.DIM
 
@@ -137,17 +131,13 @@ class NameFilter(logging.Filter):
 
         :return: Tuple of (foreground_color, background_color)
         """
-        curr_color = error_color_format.get(level_name.lower()).get(
-            "color", ""
-            )
+        curr_color = error_color_format.get(level_name.lower()).get("color", "")
         if curr_color.isnumeric():
             curr_color = "\033[" + curr_color + "m"
         else:
             curr_color = getattr(cr.Fore, curr_color.upper(), "")
 
-        curr_back = error_color_format.get(level_name.lower()).get(
-            "background", ""
-            )
+        curr_back = error_color_format.get(level_name.lower()).get("background", "")
         if curr_back.isnumeric():
             curr_back = "\033[" + curr_back
         else:
@@ -156,9 +146,8 @@ class NameFilter(logging.Filter):
         return curr_color, curr_back
 
     def _apply_formatting(
-        self, text: str, fore_color: str, back_color: str,
-        bold: str, faint: str
-        ) -> str:
+        self, text: str, fore_color: str, back_color: str, bold: str, faint: str
+    ) -> str:
         """Apply final color and style formatting to text."""
         curr_reset = back_color + fore_color + faint + bold
         reset_text = curr_reset + text.replace(cr.Fore.RESET, fore_color)
@@ -178,15 +167,16 @@ class NameFilter(logging.Filter):
 
         fixed_text, curr_bold, curr_faint = self._extract_style_attributes(
             record.msg, record.levelname
-            )
+        )
 
         curr_color, curr_back = self._resolve_level_colors(record.levelname)
 
         record.msg = self._apply_formatting(
             fixed_text, curr_color, curr_back, curr_bold, curr_faint
-            )
+        )
 
         return True
+
 
 base_log = logging.getLogger(__file__)
 base_log.addFilter(NameFilter())
@@ -581,10 +571,9 @@ def text_color(text: str, style: str, attrib: str) -> str:
     elif attrib.lower() == "style":
         reset = cr.Style.RESET_ALL
 
-    r_text =  repr(text)[1:-1]
+    r_text = repr(text)[1:-1]
 
-    return (getattr(getattr(cr, attrib.title()), style.upper()) + r_text
-            + reset)
+    return getattr(getattr(cr, attrib.title()), style.upper()) + r_text + reset
 
 
 class CallerFilter(logging.Filter):
