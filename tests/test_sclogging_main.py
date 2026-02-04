@@ -84,7 +84,8 @@ class TestTimer(unittest.TestCase):
         logger = get_logger(log_to_file=True)
         self.assertEqual(logger, mock_logger)
         mock_file_handler.assert_called_once()
-        mock_logger.addHandler.assert_called_once_with(mock_file_handler_instance)
+        mock_logger.addHandler.assert_called_once_with(
+            mock_file_handler_instance)
 
     @patch(f"{MODULE}.os.listdir")
     @patch(f"{MODULE}.base_logger")
