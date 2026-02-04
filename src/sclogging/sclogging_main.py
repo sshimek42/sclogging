@@ -71,7 +71,8 @@ class NameFilter(logging.Filter):
         super().__init__()
         self.name = "NameFilter"
 
-    def _prepare_record_metadata(self, record: logging.LogRecord) -> None:
+    @staticmethod
+    def _prepare_record_metadata(record: logging.LogRecord) -> None:
         """Prepare record name, function name, and add spacers."""
         caller_exist = getattr(record, "caller", "")
         if not caller_exist:
@@ -86,8 +87,9 @@ class NameFilter(logging.Filter):
         record.filemessage = re.sub(MESSAGE_TAG_STRIP_PATTERN, "", record.msg)
         record.funcName = f"{record.funcName} {spacers}"
 
+    @staticmethod
     def _extract_style_attributes(
-        self, message: str, level_name: str
+        message: str, level_name: str
     ) -> tuple[str, str, str]:
         """
         Extract and apply style tags from message.
@@ -125,7 +127,8 @@ class NameFilter(logging.Filter):
 
         return fixed_text, curr_bold, curr_faint
 
-    def _resolve_level_colors(self, level_name: str) -> tuple[str, str]:
+    @staticmethod
+    def _resolve_level_colors(level_name: str) -> tuple[str, str]:
         """
         Resolve foreground and background colors for the given log level.
 
@@ -145,8 +148,9 @@ class NameFilter(logging.Filter):
 
         return curr_color, curr_back
 
+    @staticmethod
     def _apply_formatting(
-        self, text: str, fore_color: str, back_color: str, bold: str, faint: str
+        text: str, fore_color: str, back_color: str, bold: str, faint: str
     ) -> str:
         """Apply final color and style formatting to text."""
         curr_reset = back_color + fore_color + faint + bold
