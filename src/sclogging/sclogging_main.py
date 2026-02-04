@@ -21,6 +21,7 @@ import sys
 import time
 import types
 from datetime import datetime
+from pathlib import Path
 
 import colorama as cr
 import coloredlogs as cl
@@ -261,6 +262,8 @@ try:
 except AttributeError:
     base_log.critical(f"'logging_path' missing in settings using {default_log_path}")
 
+    default_log_path = default_log_path.replace("~", str(Path.home()))
+
 try:
     default_level = settings.logging_level
 except AttributeError:
@@ -293,7 +296,7 @@ except AttributeError:
     base_log.critical(f"'logging_ext' missing in settings using {default_log_ext}")
 
 cl.install(logger=base_log)
-log_path = os.path.normpath(default_log_path)
+log_path = Path(default_log_path)
 
 level_list = []
 level_numbers = {}
@@ -316,7 +319,7 @@ level_numbers.sort()
 debug_levels = "|".join(level_list)
 
 
-def set_log_path(path: str = log_path, auto_create: bool = default_auto_create) -> str:
+def set_log_path(path: str = log_path, auto_create: bool = default_auto_create) -> Path:
     """Set log path
 
     Set globally at load with config, can be called to modify path per module
@@ -324,8 +327,8 @@ def set_log_path(path: str = log_path, auto_create: bool = default_auto_create) 
     :param auto_create: Option to auto-create log directories
     :return: Log path
     """
-    path = os.path.normpath(path)
-    if not os.path.exists(path):
+    path = Path(path)
+    if not path.exists():
         if auto_create:
             create_path = "yes"
         else:
@@ -357,7 +360,7 @@ def fix_mod_path(caller_name: str) -> str:
     :return: Checked path
     """
     if ".py" in caller_name:
-        caller_name = os.path.basename(caller_name)
+        caller_name = Path(caller_name).name
         caller_name = caller_name.replace(".py", "")
         split_caller_name = caller_name.split(".")
         if len(split_caller_name) > 1:
@@ -649,7 +652,7 @@ def get_logger(
     log_time = current_time.strftime("%m%d%y-%H%M")
 
     log_file_name = f"{caller_name}-{log_time}.{default_log_ext}"
-    log_full_path = os.path.join(log_path, log_file_name)
+    log_full_path = Path(log_path / log_file_name)
 
     log_formatter = logging.Formatter(fmt=file_log_format, datefmt="%Y-%m-%d %H:%M:%S")
 

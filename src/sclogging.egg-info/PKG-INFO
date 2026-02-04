@@ -10,14 +10,16 @@ Project-URL: Homepage, https://github.com/sshimek42/sclogging
 Project-URL: Documentation, https://sclogging.readthedocs.io/
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.13
+Requires-Python: >=3.14
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: dynaconf>=3.2.12
-Requires-Dist: colorama>=0.4.5
+Requires-Dist: colorama>=0.4.6
 Requires-Dist: coloredlogs>=15.0.1
 Requires-Dist: PyInputPlus>=0.2.12
-Requires-Dist: setuptools>=80.9.0
+Requires-Dist: setuptools>=80.10.2
+Requires-Dist: sphinx-rtd-theme~=3.1.0
+Requires-Dist: myst-parser~=5.0.0
 Dynamic: home-page
 Dynamic: license-file
 

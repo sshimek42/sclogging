@@ -18,8 +18,8 @@ autodoc_mock_imports = ["coloredlogs", "pyinputplus"]
 project = "SCLogging"
 copyright = "2025, sshimek42"
 author = "sshimek42"
-release = "1.0.6"
-version = "1.0.6"
+release = "1.1.0"
+version = "1.1.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

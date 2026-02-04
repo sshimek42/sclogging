@@ -7,7 +7,7 @@ name = "sclogging"
 dynamic = ["version"]
 description = "A Python module (with the help of coloredlogs) to add color to logs."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 license = "MIT"
 license-files = ["LICENSE"]
 classifiers = [
@@ -16,10 +16,12 @@ classifiers = [
 ]
 dependencies = [
     "dynaconf>=3.2.12",
-    "colorama>=0.4.5",
+    "colorama>=0.4.6",
     "coloredlogs>=15.0.1",
     "PyInputPlus>=0.2.12",
-    "setuptools>=80.9.0",
+    "setuptools>=80.10.2",
+    "sphinx-rtd-theme~=3.1.0",
+    "myst-parser~=5.0.0",
 ]
 
 [project.urls]
