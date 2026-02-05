@@ -4,9 +4,6 @@
 [![Documentation Status](https://readthedocs.org/projects/sclogging/badge/?version=latest)](https://sclogging.readthedocs.io/en/latest/?badge=latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PyPI version](https://badge.fury.io/py/sclogging.svg)](https://badge.fury.io/py/sclogging)
-[![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/latest_release_date.svg)](https://anaconda.org/sshimek42/sclogging)
-[![Anaconda-Server Badge](https://anaconda.org/sshimek42/sclogging/badges/version.svg)](https://anaconda.org/sshimek42/sclogging)
-
 
 A small, convenient wrapper around Python’s logging that makes it easy to:
 - Bootstrap a ready-to-use logger with sensible defaults
